@@ -1,7 +1,16 @@
-# DiGi Gate V2 OLED Display for AllStarLink
+# DiGi Gate V2 - OLED Display for AllStarLink
 
-A professional OLED display driver for Raspberry Pi based AllStarLink (ASL) nodes. This software provides real-time status, IP address, WiFi strength, and connected node information on an SSD1306 OLED display.
+DiGi Gate V2 is a professional OLED display driver designed for AllStarLink (ASL) nodes. It provides real-time status monitoring, network information, and an interactive CLI-based configuration menu.
 
+## Features
+
+- **Real-time Monitoring**: Displays Callsign, Node Number, IP Address, and WiFi strength.
+- **ASL Status**: Shows RX/TX status and a list of currently connected nodes (links).
+- **CLI Configuration Menu**: Easily change settings via terminal without editing files manually.
+- **180° Screen Rotation**: Support for inverted display mounting via software toggle.
+- **Screensaver Mode**: Bouncing text animation to prevent OLED burn-in after 30 seconds of inactivity.
+- **Optimized for ASL3**: Fully compatible with AllStarLink 3 (Debian Bookworm).
+  
 ## Quick Installation
 
 To install or update your DiGi Gate V2 OLED software, run the following commands on your Raspberry Pi:
@@ -25,13 +34,49 @@ Run the installer. During this process, you will be asked to enter your **Callsi
 sudo apt install ./digi-gate-v2.deb
 ```
 
-## Management Commands
+## Configuration
 
-### Check Service Status
-To see if the display driver is running correctly:
+Once installed, you can manage your DiGi Gate V2 using the built-in CLI menu.
+
+### Opening the Menu
+Simply type the following command in your terminal:
+
 ```bash
-systemctl status digi-gate.service
+sudo digi-gate-menu
 ```
+
+### Menu Options
+1. **Change Callsign**: Update the displayed callsign.
+2. **Change Node Number**: Update the AllStar node being monitored.
+3. **Toggle Rotation**: Rotate the screen text 180 degrees (Inverted mode).
+4. **Save and Apply**: Persist changes and restart the display service.
+
+## Manual Configuration
+Settings are stored in JSON format at:
+`/etc/digi-gate/config.json`
+
+Example:
+```json
+{
+    "callsign": "S21AF",
+    "node": "1234",
+    "rotation": 2
+}
+```
+*(Rotation: 0 = Normal, 2 = 180° Inverted)*
+
+## Service Management
+The display runs as a systemd service. You can control it using:
+
+- **Restart**: `sudo systemctl restart digi-gate.service`
+- **Stop**: `sudo systemctl stop digi-gate.service`
+- **Logs**: `journalctl -u digi-gate.service -f`
+
+## Hardware Requirements
+- Raspberry Pi (running AllStarLink)
+- SSD1306 128x64 I2C OLED Display
+- I2C enabled on the Pi (handled by installer)
+
 
 ### View Live Logs
 To monitor the display activity and troubleshoot connections:
@@ -48,6 +93,8 @@ sudo nano /etc/digi-gate/config.json
 ```bash
 sudo systemctl restart digi-gate.service
 ```
-
 ---
-**Made in Bangladesh by [TORUN](http://www.torun.com.bd)**
+**Developed by TORUN**  
+[www.torun.com.bd](http://www.torun.com.bd)  
+Made in Bangladesh
+
